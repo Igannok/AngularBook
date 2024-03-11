@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Category } from './category.dto';
 import { CategoryService } from './category.service';
 import { lastValueFrom } from 'rxjs';
+import { CategoryFormComponent } from './form/form.component';
 
 @Component({
   selector: 'app-categories',
@@ -19,17 +20,21 @@ import { lastValueFrom } from 'rxjs';
 
   `,
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule, CategoryFormComponent]
 })
 export class CategoriesComponent implements AfterViewInit {
+
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<CategoriesItem>;
   dataSource = new MatTableDataSource<Category>();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name',"description"];
-  constructor( private categoryService: CategoryService){}
+  displayedColumns = ['id', 'name', "description"];
+  showForm: Boolean = false;
+
+  constructor(private categoryService: CategoryService) { }
 
 
 
@@ -47,4 +52,14 @@ export class CategoriesComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+
+  onNewCategoryClick() {
+    this.showForm = true;
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.loadCategories();
+    }
+
 }
