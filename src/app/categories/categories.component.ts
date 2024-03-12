@@ -9,6 +9,7 @@ import { Category } from './category.dto';
 import { CategoryService } from './category.service';
 import { lastValueFrom } from 'rxjs';
 import { CategoryFormComponent } from './form/form.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-categories',
@@ -20,7 +21,7 @@ import { CategoryFormComponent } from './form/form.component';
 
   `,
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule, CategoryFormComponent]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule, CategoryFormComponent,MatIconModule]
 })
 export class CategoriesComponent implements AfterViewInit {
 
@@ -31,8 +32,9 @@ export class CategoriesComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<Category>();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', "description"];
+  displayedColumns = ['id', 'name', "description",'actions'];
   showForm: Boolean = false;
+  category!: Category;
 
   constructor(private categoryService: CategoryService) { }
 
@@ -54,12 +56,40 @@ export class CategoriesComponent implements AfterViewInit {
   }
 
   onNewCategoryClick() {
+
+    this.category = {
+      id: 0,
+      name: "",
+      description: ""
+    };
     this.showForm = true;
   }
 
   hideForm() {
     this.showForm = false;
     this.loadCategories();
+    }
+
+    async onSave(category: Category){
+
+      const saved = lastValueFrom(this.categoryService.save(category));
+      console.log("saved", saved);
+      this.hideForm();
+    }
+
+    onEditCategoryClick(category: Category){
+      console.log("edit categorie for", category);
+      this.category = category; //i mean this is default behavior
+      this.showForm = true;
+    }
+
+    async onDeleteCategory(category: Category){
+      if(confirm(`Delete ${category.name} with ${category.id} from the server?`)){
+        await lastValueFrom(this.categoryService.delete(category.id));
+        this.loadCategories();
+      }
+
+        console.log("Delete clicked on:", category);
     }
 
 }
