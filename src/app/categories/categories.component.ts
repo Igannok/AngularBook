@@ -10,6 +10,7 @@ import { CategoryService } from './category.service';
 import { lastValueFrom } from 'rxjs';
 import { CategoryFormComponent } from './form/form.component';
 import { MatIconModule } from '@angular/material/icon';
+import { LoadingBarComponent } from '../loading-bar.component';
 
 @Component({
   selector: 'app-categories',
@@ -21,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 
   `,
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule, CategoryFormComponent,MatIconModule]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule, MatButtonModule, CategoryFormComponent, MatIconModule, LoadingBarComponent]
 })
 export class CategoriesComponent implements AfterViewInit {
 
@@ -32,9 +33,10 @@ export class CategoriesComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<Category>();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', "description",'actions'];
+  displayedColumns = ['id', 'name', "description", 'actions'];
   showForm: Boolean = false;
   category!: Category;
+  showLoading: Boolean = false;
 
   constructor(private categoryService: CategoryService) { }
 
@@ -48,11 +50,13 @@ export class CategoriesComponent implements AfterViewInit {
     this.loadCategories()
   }
   async loadCategories() {
+    this.showLoading = true;
     const categories = await lastValueFrom(this.categoryService.getAll());
     this.dataSource = new MatTableDataSource(categories);
     this.table.dataSource = this.dataSource;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.showLoading = false;
   }
 
   onNewCategoryClick() {
@@ -68,28 +72,29 @@ export class CategoriesComponent implements AfterViewInit {
   hideForm() {
     this.showForm = false;
     this.loadCategories();
+  }
+
+  async onSave(category: Category) {
+
+    const saved = lastValueFrom(this.categoryService.save(category));
+    console.log("saved", saved);
+    this.hideForm();
+  }
+
+  onEditCategoryClick(category: Category) {
+    console.log("edit categorie for", category);
+    this.category = category; //i mean this is default behavior
+    this.showForm = true;
+  }
+
+  async onDeleteCategory(category: Category) {
+    if (confirm(`Delete ${category.name} with ${category.id} from the server?`)) {
+      await lastValueFrom(this.categoryService.delete(category.id));
+      this.showLoading = false;
+      this.loadCategories();
     }
 
-    async onSave(category: Category){
-
-      const saved = lastValueFrom(this.categoryService.save(category));
-      console.log("saved", saved);
-      this.hideForm();
-    }
-
-    onEditCategoryClick(category: Category){
-      console.log("edit categorie for", category);
-      this.category = category; //i mean this is default behavior
-      this.showForm = true;
-    }
-
-    async onDeleteCategory(category: Category){
-      if(confirm(`Delete ${category.name} with ${category.id} from the server?`)){
-        await lastValueFrom(this.categoryService.delete(category.id));
-        this.loadCategories();
-      }
-
-        console.log("Delete clicked on:", category);
-    }
+    console.log("Delete clicked on:", category);
+  }
 
 }
