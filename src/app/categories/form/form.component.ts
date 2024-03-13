@@ -5,11 +5,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { CategoriesComponent } from '../categories.component';
+import { MaterialModule } from '../../material.module';
 
 @Component({
   selector: 'category-form',
   standalone: true,
-  imports: [MatCardModule, MatInputModule, MatButtonModule, ReactiveFormsModule, CategoriesComponent],
+  imports: [MaterialModule, CategoriesComponent],
   templateUrl: './form.component.html',
   styles: ``
 })
