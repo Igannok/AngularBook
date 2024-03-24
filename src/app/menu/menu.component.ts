@@ -34,6 +34,10 @@ export class MenuComponent {
     {
       path:"/suppliers",
       label: "Suppliers"
+    },
+    {
+      path:"/objects",
+      label: "Objects"
     }
 
   ]

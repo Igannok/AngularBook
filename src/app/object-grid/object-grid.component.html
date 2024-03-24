@@ -1,0 +1,28 @@
+<div class="container responsive-grid">
+@for (object of gridObjects; track $index) {
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{object.name}}</mat-card-title>
+      <mat-card-subtitle>{{object.articleType}}</mat-card-subtitle>
+
+    </mat-card-header>
+    <img mat-card-image src="{{object.imgURL}}"/>
+    <mat-card-content>
+      <p>{{object.description}}</p>
+      <p>Height: {{object.height}}</p>
+      <p>Widht: {{object.width}}</p>
+      <p>Diameter: {{object.diameter}}</p>
+
+    </mat-card-content>
+    <mat-card-actions>
+    <a mat-raised-button href="/objects/detail/{{$index}}">Link to detail</a>
+    </mat-card-actions>
+
+
+  </mat-card>
+
+
+}
+</div>
+
