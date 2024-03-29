@@ -38,6 +38,10 @@ export class MenuComponent {
     {
       path:"/objects",
       label: "Objects"
+    },
+    {
+      path:"/articledetail",
+      label: "ArticleDetails"
     }
 
   ]

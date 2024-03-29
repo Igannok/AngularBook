@@ -32,7 +32,18 @@ interface StoreObject {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
     gap: 24px;
-  }`
+  }
+
+  .zoom{
+    transition: transform 0.2s;
+
+  }
+  .zoom:hover{
+    transform: scale(1.5);
+    z-index: 10;
+  }
+
+  `
 })
 export class ObjectGridComponent {
 

@@ -1,0 +1,102 @@
+<mat-toolbar>
+  <span>Detail Page of Article</span>
+</mat-toolbar>
+<div class="container">
+  <div class="column">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Card 1 - 2024-Q1-123</mat-card-title>
+        <mat-card-subtitle>Image wil go here</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <img class="responsive-image" mat-card-image
+          src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg" />
+      </mat-card-content>
+      <mat-card-actions class="justify">
+        <button mat-flat-button color="primary">Previous</button>
+        <button mat-flat-button color="primary">Next</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="column">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Card 2 - Details</mat-card-title>
+        <mat-card-subtitle>Select edit to change</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content style="display: flex; justify-content: center;">
+        <form>
+
+          <div> <!-- Added inline for spacing whole line -->
+            <mat-form-field appearance="outline" style="padding-right: 3rem; width: 100%;">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" name="name" [disabled]="isDisabled">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <input matInput type="text" name="type" [disabled]="isDisabled">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" style="padding-right: 3rem;">
+              <mat-label>Height (cm)</mat-label>
+              <input matInput type="number" name="height" [disabled]="isDisabled">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Width (cm)</mat-label>
+              <input matInput type="number" name="width" [disabled]="isDisabled">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="padding-right: 3rem;">
+              <mat-label>Diameter (cm)</mat-label>
+              <input matInput type="number" name="diameter" [disabled]="isDisabled">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Display Status</mat-label>
+              <input matInput type="text" name="displayStatus" [disabled]="isDisabled">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="padding-right: 3rem;" >
+              <mat-label>In Store Time</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="inStoreTime" [disabled]="isDisabled">
+              <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="isDisabled" ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+
+            </mat-form-field>
+            <div>
+            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> Depot</mat-checkbox>
+            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> Sold</mat-checkbox>
+            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> In other store</mat-checkbox>
+          </div>
+            <!-- checkbox can not be in mat-form-field
+              https://github.com/angular/components/issues/7891#issuecomment-1479950909
+            -->
+
+          </div>
+
+
+
+        </form>
+
+      </mat-card-content>
+      <mat-card-actions class="justify">
+        <button mat-flat-button color="primary" (click)="toggleEditMode()">Edit</button>
+        <button mat-raised-button color="primary" (click)="toggleEditMode()" disabledInteractive matTooltip="Click Edit" [disabled]="isDisabled">Save</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="column">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Card 3</mat-card-title>
+        <mat-card-subtitle>Extra information will go here</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>This Card 3.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
