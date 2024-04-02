@@ -30,48 +30,50 @@
           <div> <!-- Added inline for spacing whole line -->
             <mat-form-field appearance="outline" style="padding-right: 3rem; width: 100%;">
               <mat-label>Name</mat-label>
-              <input matInput type="text" name="name" [disabled]="isDisabled">
+              <input matInput type="text" name="name" [disabled]="isDisabledName">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>
-              <input matInput type="text" name="type" [disabled]="isDisabled">
+              <input matInput type="text" name="type" [disabled]="isDisabledType">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline" style="padding-right: 3rem;">
               <mat-label>Height (cm)</mat-label>
-              <input matInput type="number" name="height" [disabled]="isDisabled">
+              <input matInput type="number" name="height" [disabled]="isDisabledHeight">
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Width (cm)</mat-label>
-              <input matInput type="number" name="width" [disabled]="isDisabled">
+              <input matInput type="number" name="width" [disabled]="isDisabledWidth">
             </mat-form-field>
           </div>
 
           <div>
             <mat-form-field appearance="outline" style="padding-right: 3rem;">
               <mat-label>Diameter (cm)</mat-label>
-              <input matInput type="number" name="diameter" [disabled]="isDisabled">
+              <input matInput type="number" name="diameter" [disabled]="isDisabledDiameter">
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Display Status</mat-label>
-              <input matInput type="text" name="displayStatus" [disabled]="isDisabled">
+              <input matInput type="text" name="displayStatus" [disabled]="isDisabledDisplayStatus">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field style="padding-right: 3rem;" >
+            <mat-form-field style="padding-right: 3rem;">
               <mat-label>In Store Time</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="inStoreTime" [disabled]="isDisabled">
-              <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="isDisabled" ></mat-datepicker-toggle>
+              <input matInput [matDatepicker]="picker" formControlName="inStoreTime" [disabled]="isDisabledDatePicker">
+              <mat-datepicker-toggle matSuffix [for]="picker"
+                [disabled]="isDisabledInStoreTime"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
 
             </mat-form-field>
             <div>
-            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> Depot</mat-checkbox>
-            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> Sold</mat-checkbox>
-            <mat-checkbox matInput color="primary" [disabled]="isDisabled"> In other store</mat-checkbox>
-          </div>
+              <mat-checkbox matInput color="primary" [disabled]="isDisabledDepotBoolean"> Depot</mat-checkbox>
+              <mat-checkbox matInput color="primary" [disabled]="isDisabledSoldBoolean"> Sold</mat-checkbox>
+              <mat-checkbox matInput color="primary" [disabled]="isDisabledOtherStoreBoolean"> In other
+                store</mat-checkbox>
+            </div>
             <!-- checkbox can not be in mat-form-field
               https://github.com/angular/components/issues/7891#issuecomment-1479950909
             -->
@@ -85,7 +87,8 @@
       </mat-card-content>
       <mat-card-actions class="justify">
         <button mat-flat-button color="primary" (click)="toggleEditMode()">Edit</button>
-        <button mat-raised-button color="primary" (click)="toggleEditMode()" disabledInteractive matTooltip="Click Edit" [disabled]="isDisabled">Save</button>
+        <button mat-raised-button color="primary" (click)="toggleEditMode()" disabledInteractive matTooltip="Click Edit"
+          [disabled]="isDisabledSaveButton">Save</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -96,7 +99,33 @@
         <mat-card-subtitle>Extra information will go here</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>This Card 3.</p>
+        <p>This Card 3 - Description - Links related to article.Id</p>
+        <div>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Desciption</mat-label>
+            <textarea matInput type="text" name="description" [disabled]="isDisabledDescription"
+              cdkTextareaAutosize></textarea>
+          </mat-form-field>
+
+          <table mat-table aria-label="article info" [dataSource]="dataSource">
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Customer </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="solddate">
+              <th mat-header-cell *matHeaderCellDef> Sold on</th>
+              <td mat-cell *matCellDef="let element"> {{element.soldDate}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+
+        </div>
+
       </mat-card-content>
     </mat-card>
+
   </div>
